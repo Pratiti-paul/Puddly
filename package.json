@@ -1,0 +1,31 @@
+{
+  "name": "puddly",
+  "version": "1.0.0",
+  "description": "Puddly - A cute desktop hydration companion",
+  "main": "main/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pratiti-paul/Puddly.git"
+  },
+  "keywords": [
+    "electron",
+    "desktop",
+    "hydration",
+    "water-reminder",
+    "desktop-pet",
+    "puddly"
+  ],
+  "author": "Pratiti Paul",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Pratiti-paul/Puddly/issues"
+  },
+  "homepage": "https://github.com/Pratiti-paul/Puddly#readme",
+  "devDependencies": {
+    "electron": "^43.0.0"
+  }
+}
