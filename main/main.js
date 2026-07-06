@@ -4,14 +4,19 @@ const path = require("path");
 let mainWindow;
 
 function createWindow() {
-  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  const display = screen.getPrimaryDisplay();
+
+    const {
+    width,
+    height
+    } = display.bounds;
 
   mainWindow = new BrowserWindow({
-    width: 250,
-    height: 350,
+    width:180,
+    height:290,
 
-    x: width - 270,
-    y: height - 370,
+    x: width - 190,
+    y: height - 290,
 
     transparent: true,
     frame: false,
