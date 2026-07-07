@@ -53,58 +53,45 @@ body {
 /* Cute speech bubble */
 #speech-bubble{
     position:absolute;
-
-    top:20px;
+    top:30px;
     left:50%;
-
-    transform:translateX(-50%);
-
-    width:240px;
-
-    background:white;
-
-    border:3px solid #333;
-
-    border-radius:14px;
-
-    padding:15px;
-
+    transform:translateX(-50%) scale(.8);
+    width:230px;
+    padding:16px;
+    background:#FFF8FC;
+    border:2px solid #FFD7E7;
+    border-radius:22px;
     text-align:center;
-
-    font-weight:600;
-
     opacity:0;
-
-    transition:.25s;
-
-    z-index:10;
+    transition:.25s ease;
+    z-index:100;
+    box-shadow:0 10px 30px rgba(255,182,193,.25);
 }
 
 #speech-bubble.visible{
     opacity:1;
+    transform:translateX(-50%) scale(1);
 }
 
 /* Tail arrow pointing down to character */
-.speech-arrow {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid white;
+.speech-arrow{
+    position:absolute;
+    bottom:-12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:0;
+    height:0;
+    border-left:12px solid transparent;
+    border-right:12px solid transparent;
+    border-top:12px solid #FFF8FC;
 }
 
 /* Bubble content styles */
-#speech-text {
-    font-size: 13px;
-    color: #333333;
-    text-align: center;
-    line-height: 1.5;
-    font-weight: 500;
-    user-select: none;
+#speech-text{
+    color:#5C4A4A;
+    font-size:15px;
+    line-height:1.6;
+    font-weight:600;
 }
 
 #speech-bubble.has-buttons #speech-text {

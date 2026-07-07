@@ -1,54 +1,102 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer } = require("electron");
 
 class PopupManager {
-  constructor(onDrank, onSnooze, onQuit) {
-    this.bubble = document.getElementById('speech-bubble');
-    this.textEl = document.getElementById('speech-text');
-    this.btnContainer = document.getElementById('button-container');
-    this.btnDrank = document.getElementById('btn-drank');
-    this.btnSnooze = document.getElementById('btn-snooze');
-    this.btnQuit = document.getElementById('btn-quit');
+    constructor(onDrank, onSnooze) {
 
-    // Attach click listeners to callbacks
-    this.btnDrank.addEventListener('click', onDrank);
-    this.btnSnooze.addEventListener('click', onSnooze);
-    if (this.btnQuit && onQuit) {
-      this.btnQuit.addEventListener('click', onQuit);
+        this.bubble = document.getElementById("speech-bubble");
+        this.textEl = document.getElementById("speech-text");
+
+        this.btnContainer = document.getElementById("button-container");
+        this.btnDrank = document.getElementById("btn-drank");
+        this.btnSnooze = document.getElementById("btn-snooze");
+
+        this.btnDrank.addEventListener("click", onDrank);
+        this.btnSnooze.addEventListener("click", onSnooze);
+
+        // Enable mouse only on interactive elements
+        window.addEventListener("mousemove", (e) => {
+
+            const interactive = e.target.closest(".interactive");
+
+            ipcRenderer.send(
+                "set-ignore-mouse-events",
+                !interactive,
+                { forward: true }
+            );
+
+        });
+
     }
 
-    // Track mouse hover to toggle click-through behavior
-    window.addEventListener('mousemove', (e) => {
-      // Only capture clicks if hovering over an element with the "interactive" class
-      const isInteractive = e.target.closest('.interactive') !== null;
-      ipcRenderer.send('set-ignore-mouse-events', !isInteractive, { forward: true });
-    });
-  }
+    show(message, showButtons = false) {
 
-  show(text, showButtons = false) {
-    this.textEl.innerHTML = text.replace(/\n/g, '<br>');
-    if (showButtons) {
-      this.btnContainer.classList.add('show');
-      this.bubble.classList.add('has-buttons');
-    } else {
-      this.btnContainer.classList.remove('show');
-      this.bubble.classList.remove('has-buttons');
+        this.textEl.innerHTML = message.replace(/\n/g, "<br>");
+
+        this.bubble.classList.add("visible");
+
+        if (showButtons) {
+
+            this.btnContainer.classList.add("show");
+
+        } else {
+
+            this.btnContainer.classList.remove("show");
+
+        }
+
+        window.dispatchEvent(new Event("popup-changed"));
+
     }
-    this.bubble.classList.add('visible');
-    
-    // Trigger size recalculation
-    window.dispatchEvent(new Event('popup-changed'));
-  }
 
-  hide() {
-    this.bubble.classList.remove('visible');
-    
-    // Trigger size recalculation
-    window.dispatchEvent(new Event('popup-changed'));
-  }
+    hide() {
 
-  isVisible() {
-    return this.bubble.classList.contains('visible');
-  }
+        this.bubble.classList.remove("visible");
+
+        this.btnContainer.classList.remove("show");
+
+        window.dispatchEvent(new Event("popup-changed"));
+
+    }
+
+    setMessage(message) {
+
+        this.textEl.innerHTML = message.replace(/\n/g, "<br>");
+
+    }
+
+    showReminder() {
+
+        this.show(
+            "💕 Hiii gurlll!\nIt's time for some water 💧",
+            true
+        );
+
+    }
+
+    showSuccess() {
+
+        this.show(
+            "🥤 Yayyy!!\nGood job staying hydrated! 💖",
+            false
+        );
+
+    }
+
+    showSnooze() {
+
+        this.show(
+            "🥺 Okkayy!\nI'll remind you again in 15 minutes 💕",
+            false
+        );
+
+    }
+
+    isVisible() {
+
+        return this.bubble.classList.contains("visible");
+
+    }
+
 }
 
 module.exports = PopupManager;

@@ -1,21 +1,38 @@
+const PopupManager = require("./popup");
+
+// Character images
+const standing = () => Character.showStanding();
+const waving = () => Character.showWaving();
+const drinking = () => Character.showDrinking();
+const sad = () => Character.showSad();
+
+// Popup
+const popup = new PopupManager(
+    () => {
+        console.log("I Drank clicked");
+    },
+    () => {
+        console.log("Snooze clicked");
+    }
+);
+
 window.onload = () => {
 
-    Character.showStanding();
+    // Start with standing
+    standing();
 
+    // After 3 seconds, wave
     setTimeout(() => {
-        Character.showWaving();
+
+        waving();
+
     }, 3000);
 
+    // After 4 seconds, show bubble
     setTimeout(() => {
-        Character.showDrinking();
-    }, 6000);
 
-    setTimeout(() => {
-        Character.showSad();
-    }, 9000);
+        popup.showReminder();
 
-    setTimeout(() => {
-        Character.showStanding();
-    }, 12000);
+    }, 4000);
 
 };
