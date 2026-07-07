@@ -10,50 +10,45 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.quit-button {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 28px;
-    height: 28px;
-    border: none;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.9);
-    color: #8e8e93;
-    font-size: 20px;
-    line-height: 1;
-    cursor: pointer;
-    z-index: 20;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
-}
 
-.quit-button:hover {
-    background: rgba(255, 255, 255, 1);
-    color: #ff3b30;
-    transform: scale(1.06);
-}
-
-.quit-button:active {
-    transform: scale(0.96);
-}
 
 /* Character container at the bottom */
-#character-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Make character transparent to clicks unless overridden */
+#character-container{
+    position:absolute;
+
+    right:0;
+    bottom:0;
+
+    width:230px;
+    height:380px;
+
+    overflow:visible;
+
+    pointer-events:none;
 }
 
-/* Character image layers for smooth cross-fading */
-.character-img {
-    position: absolute;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-    pointer-events: none;
+.character-img{
+
+    position:absolute;
+
+    right:0;
+    bottom:0;
+
+    width:230px;
+
+    height:auto;
+
+    opacity:0;
+
+    transition:opacity .35s ease;
+}
+
+.character-img.visible{
+    opacity:1;
+}
+
+.character-img.hidden{
+    opacity:0;
 }
 
 .character-img.visible {

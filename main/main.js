@@ -1,92 +1,107 @@
-const { app, BrowserWindow, screen, ipcMain } = require("electron");
+const { app, BrowserWindow, Tray, Menu, ipcMain, screen } = require("electron");
 const path = require("path");
 
 let mainWindow;
+let tray;
 
 function createWindow() {
-  const display = screen.getPrimaryDisplay();
-  const { width: screenWidth, height: screenHeight } = display.bounds;
 
-  mainWindow = new BrowserWindow({
-    width: 200,
-    height: 380,    
-    x: screenWidth - 220,
-    y: screenHeight - 380,
-    show: false, // Start hidden to prevent flashing/jumping
+    const display = screen.getPrimaryDisplay();
+    const { width, height } = display.workAreaSize;
 
-    transparent: true,
-    frame: false,
-    alwaysOnTop: true,
-    resizable: false,
-    movable: false, // Anchored to bottom-right
-    skipTaskbar: true,
-    hasShadow: false,
+    mainWindow = new BrowserWindow({
 
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
-    }
-  });
+        width:260,
+        height:430,
 
-  // Redirect renderer logs to main terminal
-  mainWindow.webContents.on("console-message", (event, level, message) => {
-    console.log(`[RENDERER LOG] ${message}`);
-  });
+        x: width - 260,
+        y: height - 430,
 
-  mainWindow.webContents.openDevTools({ mode: 'detach' });
+        transparent: true,
+        frame: false,
 
-  mainWindow.loadFile(
-    path.join(__dirname, "../renderer/index.html")
-  );
+        alwaysOnTop: true,
 
-  // Make visible on all Spaces and full-screen screens
-  mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-  mainWindow.setAlwaysOnTop(true, "screen-saver");
+        resizable: false,
+        maximizable: false,
+        minimizable: false,
 
-  // Fallback to show window if renderer doesn't send size within 2 seconds
-  const showFallback = setTimeout(() => {
-    if (mainWindow && !mainWindow.isDestroyed() && !mainWindow.isVisible()) {
-      mainWindow.show();
-    }
-  }, 2000);
+        skipTaskbar: true,
+        hasShadow: false,
 
-  // Listen for dynamic resize and reposition from renderer
-  ipcMain.on("resize-and-reposition", (event, { width, height }) => {
-    if (!mainWindow || mainWindow.isDestroyed()) return;
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false
+        }
 
-    clearTimeout(showFallback);
+    });
 
-    const currentDisplay = screen.getPrimaryDisplay();
-    const { width: scrW, height: scrH } = currentDisplay.bounds;
+    mainWindow.loadFile(
+        path.join(__dirname, "../renderer/index.html")
+    );
 
-    const paddingRight = 20; // Padding from right edge
-    const paddingBottom = 0; // Touch bottom of physical screen
-
-    const x = scrW - width - paddingRight;
-    const y = scrH - height - paddingBottom;
-
-    mainWindow.setSize(width, height);
-    mainWindow.setPosition(x, y);
-
-    if (!mainWindow.isVisible()) {
-      mainWindow.show();
-    }
-  });
-
-  // Dynamic ignore mouse events to support transparency click-through
-  ipcMain.on("set-ignore-mouse-events", (event, ignore, options) => {
-    if (!mainWindow || mainWindow.isDestroyed()) return;
-    mainWindow.setIgnoreMouseEvents(ignore, options);
-  });
-
-  ipcMain.on("quit-app", () => {
-    app.quit();
-  });
+    createTray();
 }
 
-app.whenReady().then(createWindow);
+function createTray() {
+
+    tray = new Tray(
+        path.join(__dirname, "../assets/icon.png")
+    );
+
+    const menu = Menu.buildFromTemplate([
+
+        {
+            label: "🩷 Show Puddly",
+            click() {
+                mainWindow.show();
+            }
+        },
+
+        {
+            label: "🙈 Hide Puddly",
+            click() {
+                mainWindow.hide();
+            }
+        },
+
+        {
+            type: "separator"
+        },
+
+        {
+            label: "❌ Quit Puddly",
+            click() {
+                app.quit();
+            }
+        }
+
+    ]);
+
+    tray.setToolTip("Puddly 💖");
+    tray.setContextMenu(menu);
+}
+
+ipcMain.on("quit-app", () => {
+    app.quit();
+});
+
+app.whenReady().then(() => {
+    createWindow();
+});
+
+app.on("activate", () => {
+
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+    }
+
+});
 
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin")
-    app.quit();
+
+    if (process.platform !== "darwin") {
+        app.quit();
+    }
+
 });
