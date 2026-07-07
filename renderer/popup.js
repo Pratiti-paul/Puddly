@@ -27,10 +27,10 @@ class PopupManager {
   show(text, showButtons = false) {
     this.textEl.innerHTML = text.replace(/\n/g, '<br>');
     if (showButtons) {
-      this.btnContainer.style.display = 'flex';
+      this.btnContainer.classList.add('show');
       this.bubble.classList.add('has-buttons');
     } else {
-      this.btnContainer.style.display = 'none';
+      this.btnContainer.classList.remove('show');
       this.bubble.classList.remove('has-buttons');
     }
     this.bubble.classList.add('visible');
