@@ -9,16 +9,16 @@ function createWindow() {
 
   mainWindow = new BrowserWindow({
     width: 200,
-    height: 320,    
-    x: screenWidth - 210,
-    y: screenHeight - 320,
+    height: 380,    
+    x: screenWidth - 220,
+    y: screenHeight - 380,
     show: false, // Start hidden to prevent flashing/jumping
 
     transparent: true,
     frame: false,
     alwaysOnTop: true,
     resizable: false,
-    movable: true,
+    movable: false, // Anchored to bottom-right
     skipTaskbar: true,
     hasShadow: false,
 
@@ -28,25 +28,27 @@ function createWindow() {
     }
   });
 
-  mainWindow.loadFile(
-    path.join(__dirname, "../renderer/index.html")
-  );
-
-  console.log("Primary Display Bounds:", display.bounds);
-  console.log("Primary Display WorkArea:", display.workArea);
-
   // Redirect renderer logs to main terminal
   mainWindow.webContents.on("console-message", (event, level, message) => {
     console.log(`[RENDERER LOG] ${message}`);
   });
 
-  // Fallback to show window if renderer doesn't send size within 1.5 seconds
+  mainWindow.webContents.openDevTools({ mode: 'detach' });
+
+  mainWindow.loadFile(
+    path.join(__dirname, "../renderer/index.html")
+  );
+
+  // Make visible on all Spaces and full-screen screens
+  mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  mainWindow.setAlwaysOnTop(true, "screen-saver");
+
+  // Fallback to show window if renderer doesn't send size within 2 seconds
   const showFallback = setTimeout(() => {
-    console.log("Fallback timeout reached, showing window with default size");
     if (mainWindow && !mainWindow.isDestroyed() && !mainWindow.isVisible()) {
       mainWindow.show();
     }
-  }, 1500);
+  }, 2000);
 
   // Listen for dynamic resize and reposition from renderer
   ipcMain.on("resize-and-reposition", (event, { width, height }) => {
@@ -57,27 +59,28 @@ function createWindow() {
     const currentDisplay = screen.getPrimaryDisplay();
     const { width: scrW, height: scrH } = currentDisplay.bounds;
 
-    console.log(`Received resize request: width=${width}, height=${height}`);
-
     const paddingRight = 20; // Padding from right edge
     const paddingBottom = 0; // Touch bottom of physical screen
 
     const x = scrW - width - paddingRight;
     const y = scrH - height - paddingBottom;
 
-    console.log(`Requested positioning window at: x=${x}, y=${y}`);
-
     mainWindow.setSize(width, height);
     mainWindow.setPosition(x, y);
-    
-    // Set level to screen-saver so it can overlap Dock and not be forced up
-    mainWindow.setAlwaysOnTop(true, "screen-saver");
-
-    console.log("Actual window position after setting bounds:", mainWindow.getPosition());
 
     if (!mainWindow.isVisible()) {
       mainWindow.show();
     }
+  });
+
+  // Dynamic ignore mouse events to support transparency click-through
+  ipcMain.on("set-ignore-mouse-events", (event, ignore, options) => {
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    mainWindow.setIgnoreMouseEvents(ignore, options);
+  });
+
+  ipcMain.on("quit-app", () => {
+    app.quit();
   });
 }
 
