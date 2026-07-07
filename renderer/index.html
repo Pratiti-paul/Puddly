@@ -9,27 +9,52 @@
 
 <body>
 
-    
-    <!-- Speech bubble popup, marked as interactive to capture mouse events -->
-    <div id="speech-bubble">
+    <div id="puddly-container">
 
-    <div id="speech-text">
-        Hiii gurlll! 💕<br>
-        It's time for some water 💧
-    </div>
+        <!-- Speech Bubble -->
+        <div id="speech-bubble">
 
-    <div class="speech-arrow"></div>
+            <div id="speech-text">
+                Hiii gurlll! 💕<br>
+                It's time for some water 💧
+            </div>
 
-    </div>
+            <div class="speech-arrow"></div>
 
-    <div id="button-container" class="interactive">
-        <button id="btn-drank">💧 I Drank</button>
-        <button id="btn-snooze">😴 Snooze</button>
-    </div>
-    <!-- Character images container for smooth cross-fading -->
-    <div id="character-container">
-        <img id="puddly-img-1" class="character-img visible" src="../assets/standing.png" draggable="false">
-        <img id="puddly-img-2" class="character-img hidden" src="../assets/standing.png" draggable="false">
+        </div>
+
+        <!-- Character -->
+        <div id="character-container">
+
+            <img
+                id="puddly-img-1"
+                class="character-img visible"
+                src="../assets/standing.png"
+                draggable="false"
+            >
+
+            <img
+                id="puddly-img-2"
+                class="character-img hidden"
+                src="../assets/standing.png"
+                draggable="false"
+            >
+
+        </div>
+
+        <!-- Buttons -->
+        <div id="button-container" class="interactive">
+
+            <button id="btn-drank">
+                💧 I Drank
+            </button>
+
+            <button id="btn-snooze">
+                😴 Snooze
+            </button>
+
+        </div>
+
     </div>
 
     <script>
@@ -40,10 +65,10 @@
             }
         };
     </script>
-    <script src="character.js"></script>
-    <script src="script.js" onerror="console.log('SCRIPT.JS LOAD ERROR: Failed to load file from disk!')"></script>
 
-  
+    <script src="character.js"></script>
+    <script src="script.js"></script>
+
 </body>
 
 </html>

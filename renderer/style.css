@@ -14,27 +14,30 @@ body {
 
 /* Character container at the bottom */
 #character-container{
-    position:absolute;
-    right:0;
-    bottom:50px;
+    position: relative;
 
-    width:340px;
-    height:670px;
+    width: 230px;
+    height: 300px;
 
-    overflow:visible;
-    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    margin: 10px 0;
 }
 
 .character-img{
+
     position:absolute;
 
-    right:0;
     bottom:0;
 
-    height:480px;
+    max-height:100%;
+
     width:auto;
 
     opacity:0;
+
     transition:opacity .35s ease;
 
     pointer-events:none;
@@ -66,6 +69,9 @@ body {
     transition:.25s ease;
     z-index:100;
     box-shadow:0 10px 30px rgba(255,182,193,.25);
+    margin-bottom:15px;
+    max-width:240px;
+    text-align:center;
 }
 
 #speech-bubble.visible{
@@ -189,4 +195,17 @@ body {
 
 #btn-snooze:active {
     transform: scale(0.97);
+}
+
+#puddly-container {
+    position: absolute;
+
+    right: 30px;
+    bottom: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    user-select: none;
 }
