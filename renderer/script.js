@@ -3,6 +3,8 @@ const PopupManager = require("./popup");
 const { States, StateMachine } = require("./states");
 
 const puddly = document.getElementById("puddly-container");
+const HIDDEN_RIGHT_OFFSET = "-320px";
+const VISIBLE_RIGHT_OFFSET = "30px";
 
 // -------------------------------------
 // Popup
@@ -32,7 +34,7 @@ function walkIn(callback) {
     Character.startWalking("right");
 
     puddly.style.transition = "right 2s ease";
-    puddly.style.right = "30px";
+    puddly.style.right = VISIBLE_RIGHT_OFFSET;
 
     setTimeout(() => {
 
@@ -49,7 +51,7 @@ function walkOut(callback) {
     Character.startWalking("left");
 
     puddly.style.transition = "right 2s ease";
-    puddly.style.right = "-250px";
+    puddly.style.right = HIDDEN_RIGHT_OFFSET;
 
     setTimeout(() => {
 
@@ -194,7 +196,7 @@ window.onload = () => {
     console.log("Puddly Started");
 
     // Start hidden off-screen
-    puddly.style.right = "-250px";
+    puddly.style.right = HIDDEN_RIGHT_OFFSET;
 
     // Character is standing off-screen
     Character.showStanding();

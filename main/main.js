@@ -11,11 +11,11 @@ function createWindow() {
 
     mainWindow = new BrowserWindow({
 
-        width: 340,
-        height: 670,
+        width: 360,
+        height: 490,
 
-        x: width - 300,
-        y: height - 390,
+        x: width - 360,
+        y: height - 490,
 
         transparent: true,
         frame: false,

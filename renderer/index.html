@@ -10,48 +10,51 @@
 <body>
 
     <div id="puddly-container">
+        <div class="companion-container">
 
-        <!-- Speech Bubble -->
-        <div id="speech-bubble">
+            <!-- Speech Bubble -->
+            <div id="speech-bubble">
 
-            <div id="speech-text">
-                Hiii gurlll! 💕<br>
-                It's time for some water 💧
+                <div id="speech-text">
+                    Hiii gurlll! 💕<br>
+                    It's time for some water 💧
+                </div>
+
+                <div class="speech-arrow"></div>
+
             </div>
 
-            <div class="speech-arrow"></div>
+            <!-- Character -->
+            <div id="character-container">
 
-        </div>
+                <img
+                    id="puddly-img-1"
+                    class="character-img visible"
+                    src="../assets/standing.png"
+                    draggable="false"
+                >
 
-        <!-- Character -->
-        <div id="character-container">
+                <img
+                    id="puddly-img-2"
+                    class="character-img hidden"
+                    src="../assets/standing.png"
+                    draggable="false"
+                >
 
-            <img
-                id="puddly-img-1"
-                class="character-img visible"
-                src="../assets/standing.png"
-                draggable="false"
-            >
+            </div>
 
-            <img
-                id="puddly-img-2"
-                class="character-img hidden"
-                src="../assets/standing.png"
-                draggable="false"
-            >
+            <!-- Buttons -->
+            <div id="button-container" class="interactive">
 
-        </div>
+                <button id="btn-drank">
+                    💧 I Drank
+                </button>
 
-        <!-- Buttons -->
-        <div id="button-container" class="interactive">
+                <button id="btn-snooze">
+                    😴 Snooze
+                </button>
 
-            <button id="btn-drank">
-                💧 I Drank
-            </button>
-
-            <button id="btn-snooze">
-                😴 Snooze
-            </button>
+            </div>
 
         </div>
 
