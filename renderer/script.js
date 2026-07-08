@@ -1,10 +1,23 @@
+const { ipcRenderer } = require("electron");
 const Character = require("./character");
 const PopupManager = require("./popup");
 const { States, StateMachine } = require("./states");
+const Timer = require("./timer");
 
 const puddly = document.getElementById("puddly-container");
 const HIDDEN_RIGHT_OFFSET = "-320px";
 const VISIBLE_RIGHT_OFFSET = "30px";
+const DEFAULT_PREFERENCES = {
+    dndMode: "off",
+    dndUntil: null,
+    reminderIntervalMinutes: 90
+};
+const ONE_MINUTE_MS = 60 * 1000;
+const INITIAL_REMINDER_DELAY_MS = 3000;
+const reminderTimer = new Timer(0, handleReminderTimeout);
+
+let preferences = { ...DEFAULT_PREFERENCES };
+let preferencesLoaded = false;
 
 // -------------------------------------
 // Popup
@@ -78,10 +91,13 @@ function handleStateChange(state) {
 
             popup.hide();
             Character.showStanding();
+            scheduleNextReminder();
 
             break;
 
         case States.WAVING:
+
+            reminderTimer.stop();
 
             walkIn(() => {
 
@@ -98,6 +114,7 @@ function handleStateChange(state) {
 
         case States.DRINKING:
 
+            reminderTimer.stop();
             Character.showDrinking();
 
             popup.show(
@@ -125,6 +142,7 @@ function handleStateChange(state) {
 
         case States.SAD:
 
+            reminderTimer.stop();
             Character.showSad();
 
             popup.show(
@@ -188,10 +206,68 @@ window.showDrinking = () => machine.transitionTo(States.DRINKING);
 window.showSad = () => machine.transitionTo(States.SAD);
 
 // -------------------------------------
+// Reminder Scheduling
+// -------------------------------------
+
+function reminderIntervalMs() {
+    return preferences.reminderIntervalMinutes * ONE_MINUTE_MS;
+}
+
+function isDndActive() {
+    return Boolean(preferences.dndUntil && preferences.dndUntil > Date.now());
+}
+
+function scheduleNextReminder(delayMs = reminderIntervalMs()) {
+    if (!preferencesLoaded) {
+        return;
+    }
+
+    if (isDndActive()) {
+        reminderTimer.reset(preferences.dndUntil - Date.now());
+        return;
+    }
+
+    reminderTimer.reset(delayMs);
+}
+
+function handleReminderTimeout() {
+    if (isDndActive()) {
+        scheduleNextReminder();
+        return;
+    }
+
+    if (machine.is(States.STANDING)) {
+        machine.transitionTo(States.WAVING);
+        return;
+    }
+
+    scheduleNextReminder(ONE_MINUTE_MS);
+}
+
+function applyPreferences(nextPreferences) {
+    preferences = {
+        ...DEFAULT_PREFERENCES,
+        ...nextPreferences
+    };
+
+    if (preferencesLoaded && machine.is(States.STANDING)) {
+        scheduleNextReminder();
+    }
+}
+
+ipcRenderer.on("preferences:changed", (event, nextPreferences) => {
+    applyPreferences(nextPreferences);
+});
+
+ipcRenderer.on("app-quitting", () => {
+    reminderTimer.stop();
+});
+
+// -------------------------------------
 // App Start
 // -------------------------------------
 
-window.onload = () => {
+window.onload = async () => {
 
     console.log("Puddly Started");
 
@@ -201,11 +277,8 @@ window.onload = () => {
     // Character is standing off-screen
     Character.showStanding();
 
-    // Demo: walk in after 3 seconds
-    setTimeout(() => {
-
-        machine.transitionTo(States.WAVING);
-
-    }, 3000);
+    applyPreferences(await ipcRenderer.invoke("preferences:get"));
+    preferencesLoaded = true;
+    scheduleNextReminder(INITIAL_REMINDER_DELAY_MS);
 
 };
