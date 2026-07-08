@@ -29,6 +29,7 @@ body {
 .character-img{
     position:absolute;
     bottom:0;
+    height:100%;
     max-height:100%;
     width:auto;
     opacity:0;

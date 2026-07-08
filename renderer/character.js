@@ -7,9 +7,10 @@ const SPRITES = {
     sad: "../assets/sad.png",
 
     walk: [
-        "../assets/walkout1.png",
-        "../assets/walkout2.png",
-        "../assets/walkout3.png"
+        "../assets/walk1.png",
+        "../assets/walk2.png",
+        "../assets/walk3.png",
+        "../assets/walk4.png"
     ]
 };
 
@@ -61,7 +62,7 @@ function startWalking(direction = "right") {
         frame = (frame + 1) % SPRITES.walk.length;
         character.src = SPRITES.walk[frame];
 
-    }, 100);
+    }, 160);
 
 }
 

@@ -31,7 +31,7 @@ function walkIn(callback) {
 
     Character.startWalking("left");
 
-    puddly.style.transition = "right 1.2s ease";
+    puddly.style.transition = "right 2s ease";
     puddly.style.right = "30px";
 
     setTimeout(() => {
@@ -40,7 +40,7 @@ function walkIn(callback) {
 
         if (callback) callback();
 
-    }, 1200);
+    }, 2000);
 
 }
 
@@ -48,7 +48,7 @@ function walkOut(callback) {
 
     Character.startWalking("right");
 
-    puddly.style.transition = "right 1.2s ease";
+    puddly.style.transition = "right 2s ease";
     puddly.style.right = "-250px";
 
     setTimeout(() => {
@@ -58,7 +58,7 @@ function walkOut(callback) {
 
         if (callback) callback();
 
-    }, 1200);
+    }, 2000);
 
 }
 
