@@ -1,27 +1,56 @@
+// renderer/states.js
+
+// =========================
+// Available Character States
+// =========================
 const States = {
-  STANDING: 'STANDING',
-  WAVING: 'WAVING',
-  DRINKING: 'DRINKING',
-  SAD: 'SAD'
+    STANDING: "standing",
+    WAVING: "waving",
+    DRINKING: "drinking",
+    SAD: "sad"
 };
 
+// =========================
+// State Machine
+// =========================
 class StateMachine {
-  constructor(initialState, onStateChange) {
-    this.currentState = initialState;
-    this.onStateChange = onStateChange;
-  }
 
-  transitionTo(nextState) {
-    console.log(`State transition: ${this.currentState} -> ${nextState}`);
-    this.currentState = nextState;
-    if (this.onStateChange) {
-      this.onStateChange(nextState);
+    constructor(initialState, onStateChange = null) {
+        this.currentState = initialState;
+        this.onStateChange = onStateChange;
     }
-  }
 
-  getCurrentState() {
-    return this.currentState;
-  }
+    transitionTo(newState) {
+
+        // Ignore if already in same state
+        if (this.currentState === newState) {
+            return;
+        }
+
+        console.log(
+            `[STATE] ${this.currentState} → ${newState}`
+        );
+
+        this.currentState = newState;
+
+        if (typeof this.onStateChange === "function") {
+            this.onStateChange(newState);
+        }
+    }
+
+    getCurrentState() {
+        return this.currentState;
+    }
+
+    is(state) {
+        return this.currentState === state;
+    }
 }
 
-module.exports = { States, StateMachine };
+// =========================
+// Export
+// =========================
+module.exports = {
+    States,
+    StateMachine
+};

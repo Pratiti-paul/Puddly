@@ -23,7 +23,7 @@ function showSad() {
     character.src = SPRITES.sad;
 }
 
-window.Character = {
+module.exports = {
     showStanding,
     showWaving,
     showDrinking,

@@ -59,14 +59,14 @@
 
     <script>
         window.onerror = function(message, source, lineno, colno, error) {
-            console.log("CRITICAL ERROR: " + message + " (line " + lineno + ", col " + colno + ")");
-            if (error && error.stack) {
-                console.log("Stack: " + error.stack);
+            console.log("CRITICAL ERROR:", message);
+
+            if (error) {
+                console.error(error);
             }
         };
     </script>
 
-    <script src="character.js"></script>
     <script src="script.js"></script>
 
 </body>
