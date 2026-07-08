@@ -12,17 +12,28 @@ const REMINDER_INTERVALS = [15, 30, 45, 60, 90];
 
 function createPuddlyTray(options) {
     const tray = new Tray(createTrayIcon(options.iconPath));
+    let contextMenu;
 
     function rebuildMenu() {
-        tray.setContextMenu(buildTrayMenu({
+        contextMenu = buildTrayMenu({
             ...options,
             tray,
             rebuildMenu
-        }));
+        });
+
+        tray.setContextMenu(contextMenu);
     }
 
     tray.setToolTip("Puddly");
     rebuildMenu();
+
+    tray.on("click", () => {
+        tray.popUpContextMenu(contextMenu);
+    });
+
+    tray.on("right-click", () => {
+        tray.popUpContextMenu(contextMenu);
+    });
 
     return {
         tray,
@@ -35,12 +46,17 @@ function createPuddlyTray(options) {
 
 function createTrayIcon(iconPath) {
     const icon = nativeImage.createFromPath(iconPath);
+    const size = process.platform === "darwin" ? 18 : 16;
+    const trayIcon = icon.resize({
+        width: size,
+        height: size
+    });
 
     if (process.platform === "darwin") {
-        icon.setTemplateImage(false);
+        trayIcon.setTemplateImage(false);
     }
 
-    return icon;
+    return trayIcon;
 }
 
 function buildTrayMenu(options) {
