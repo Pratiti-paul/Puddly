@@ -17,10 +17,13 @@ function createWindow() {
         x: width - 360,
         y: height - 490,
 
+        type: process.platform === "darwin" ? "panel" : undefined,
+
         transparent: true,
         frame: false,
 
         alwaysOnTop: true,
+        show: false,
 
         resizable: false,
         maximizable: false,
@@ -40,7 +43,34 @@ function createWindow() {
         path.join(__dirname, "../renderer/index.html")
     );
 
+    mainWindow.once("ready-to-show", () => {
+        configureTopLevelWindow(mainWindow);
+        mainWindow.showInactive();
+        configureTopLevelWindow(mainWindow);
+    });
+
+    mainWindow.on("show", () => {
+        configureTopLevelWindow(mainWindow);
+    });
+
+    mainWindow.on("blur", () => {
+        configureTopLevelWindow(mainWindow);
+    });
+
     createTray();
+}
+
+function configureTopLevelWindow(window) {
+
+    window.setAlwaysOnTop(true, "screen-saver");
+
+    window.setVisibleOnAllWorkspaces(true, {
+        visibleOnFullScreen: true
+    });
+
+    window.setFullScreenable(false);
+    window.setSkipTaskbar(true);
+    window.moveTop();
 }
 
 function createTray() {
@@ -54,7 +84,7 @@ function createTray() {
         {
             label: "🩷 Show Puddly",
             click() {
-                mainWindow.show();
+                mainWindow.showInactive();
             }
         },
 
@@ -84,6 +114,16 @@ function createTray() {
 
 ipcMain.on("quit-app", () => {
     app.quit();
+});
+
+ipcMain.on("set-ignore-mouse-events", (event, ignore, options) => {
+
+    if (!mainWindow || mainWindow.isDestroyed()) {
+        return;
+    }
+
+    mainWindow.setIgnoreMouseEvents(ignore, options);
+
 });
 
 app.whenReady().then(() => {
