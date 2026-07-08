@@ -29,7 +29,7 @@ const machine = new StateMachine(
 
 function walkIn(callback) {
 
-    Character.startWalking("left");
+    Character.startWalking("right");
 
     puddly.style.transition = "right 2s ease";
     puddly.style.right = "30px";
@@ -46,7 +46,7 @@ function walkIn(callback) {
 
 function walkOut(callback) {
 
-    Character.startWalking("right");
+    Character.startWalking("left");
 
     puddly.style.transition = "right 2s ease";
     puddly.style.right = "-250px";
