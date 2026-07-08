@@ -27,19 +27,12 @@ body {
 }
 
 .character-img{
-
     position:absolute;
-
     bottom:0;
-
     max-height:100%;
-
     width:auto;
-
     opacity:0;
-
     transition:opacity .35s ease;
-
     pointer-events:none;
 }
 
@@ -53,43 +46,42 @@ body {
 
 
 
-/* Cute speech bubble */
+
 #speech-bubble{
-    position:absolute;
-    top:30px;
-    left:50%;
-    transform:translateX(-50%) scale(.8);
     width:230px;
     padding:16px;
     background:#FFF8FC;
     border:2px solid #FFD7E7;
     border-radius:22px;
-    text-align:center;
-    opacity:0;
-    transition:.25s ease;
-    z-index:100;
     box-shadow:0 10px 30px rgba(255,182,193,.25);
-    margin-bottom:15px;
-    max-width:240px;
     text-align:center;
+    align-self:center;
+    position:relative;
+    margin-bottom:8px;
+    opacity:0;
+    transform:scale(.85);
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
 }
 
 #speech-bubble.visible{
     opacity:1;
-    transform:translateX(-50%) scale(1);
+    transform:scale(1);
 }
 
-/* Tail arrow pointing down to character */
+
 .speech-arrow{
     position:absolute;
-    bottom:-12px;
     left:50%;
+    bottom:-12px;
     transform:translateX(-50%);
     width:0;
     height:0;
     border-left:12px solid transparent;
     border-right:12px solid transparent;
     border-top:12px solid #FFF8FC;
+    margin-top:6px;
 }
 
 /* Bubble content styles */
@@ -107,18 +99,12 @@ body {
 /* Button styles */
 #button-container{
 
-    position:absolute;
-
-    bottom:10px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
+    /* position:absolute; */
+    /* bottom:10px; */
+    /* left:50%; */
+    /* transform:translateX(-50%); */
     display:none;
-
     gap:12px;
-
     z-index:20;
 }
 
@@ -144,36 +130,23 @@ body {
 #btn-drank{
 
     width:110px;
-
     height:42px;
-
     border:none;
-
     border-radius:10px;
-
     background:#57d86b;
-
     color:white;
-
     font-weight:700;
-
     cursor:pointer;
 }
 
 #btn-snooze{
 
     width:110px;
-
     height:42px;
-
     border:none;
-
     border-radius:10px;
-
     background:#ececec;
-
     font-weight:700;
-
     cursor:pointer;
 }
 
@@ -208,4 +181,17 @@ body {
     align-items: center;
 
     user-select: none;
+}
+
+@keyframes bounce{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-6px);
+    }
+}
+
+.character-img.waving{
+    animation:bounce .8s infinite;
 }
