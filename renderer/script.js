@@ -2,29 +2,79 @@ const Character = require("./character");
 const PopupManager = require("./popup");
 const { States, StateMachine } = require("./states");
 
-// -----------------------------
+const puddly = document.getElementById("puddly-container");
+
+// ----------------------------------
 // Popup
-// -----------------------------
+// ----------------------------------
+
 const popup = new PopupManager(
     onDrank,
     onSnooze,
     onQuit
 );
 
-// -----------------------------
+// ----------------------------------
 // State Machine
-// -----------------------------
+// ----------------------------------
+
 const machine = new StateMachine(
     States.STANDING,
     handleStateChange
 );
 
-// -----------------------------
-// State Changes
-// -----------------------------
-function handleStateChange(state) {
+// ----------------------------------
+// Walking
+// ----------------------------------
 
-    switch (state) {
+function walkIn(callback){
+
+    Character.startWalking();
+
+    puddly.style.transition = "right .9s ease";
+    puddly.style.right = "30px";
+
+    setTimeout(() => {
+
+        Character.stopWalking();
+
+        if(callback){
+            callback();
+        }
+
+    },900);
+
+}
+
+function walkOut(callback){
+
+    Character.startWalking();
+
+    puddly.style.transition = "right .9s ease";
+    puddly.style.right = "-250px";
+
+    setTimeout(() => {
+
+        Character.stopWalking();
+        Character.showStanding();
+
+        if(callback){
+            callback();
+        }
+
+    },900);
+
+}
+
+// ----------------------------------
+// State Changes
+// ----------------------------------
+
+function handleStateChange(state){
+
+    console.log("[STATE]",state);
+
+    switch(state){
 
         case States.STANDING:
 
@@ -35,12 +85,16 @@ function handleStateChange(state) {
 
         case States.WAVING:
 
-            Character.showWaving();
+            walkIn(()=>{
 
-            popup.show(
-                "💕 Hiii gurlll!!\nIt's time for some water 💧",
-                true
-            );
+                Character.showWaving();
+
+                popup.show(
+                    "💕 Hiii gurlll!!\nIt's time for some water 💧",
+                    true
+                );
+
+            });
 
             break;
 
@@ -53,9 +107,17 @@ function handleStateChange(state) {
                 false
             );
 
-            setTimeout(() => {
-                machine.transitionTo(States.STANDING);
-            }, 3000);
+            setTimeout(()=>{
+
+                popup.hide();
+
+                walkOut(()=>{
+
+                    machine.transitionTo(States.STANDING);
+
+                });
+
+            },3000);
 
             break;
 
@@ -68,59 +130,76 @@ function handleStateChange(state) {
                 false
             );
 
-            setTimeout(() => {
-                machine.transitionTo(States.STANDING);
-            }, 3000);
+            setTimeout(()=>{
+
+                popup.hide();
+
+                walkOut(()=>{
+
+                    machine.transitionTo(States.STANDING);
+
+                });
+
+            },3000);
 
             break;
+
     }
+
 }
 
-// -----------------------------
-// Button Callbacks
-// -----------------------------
-function onDrank() {
+// ----------------------------------
+// Buttons
+// ----------------------------------
+
+function onDrank(){
 
     machine.transitionTo(States.DRINKING);
 
 }
 
-function onSnooze() {
+function onSnooze(){
 
     machine.transitionTo(States.SAD);
 
 }
 
-function onQuit() {
+function onQuit(){
 
     window.close();
 
 }
 
-// -----------------------------
-// Debug Helpers
-// -----------------------------
+// ----------------------------------
+// Debug
+// ----------------------------------
+
 window.machine = machine;
 window.States = States;
 
-// Easy testing from DevTools
 window.showStanding = () => machine.transitionTo(States.STANDING);
 window.showWaving = () => machine.transitionTo(States.WAVING);
 window.showDrinking = () => machine.transitionTo(States.DRINKING);
 window.showSad = () => machine.transitionTo(States.SAD);
 
-// -----------------------------
+// ----------------------------------
 // Start App
-// -----------------------------
+// ----------------------------------
+
 window.onload = () => {
 
-    console.log("App Started");
+    console.log("Puddly Started");
+
+    // Start hidden
+    puddly.style.right = "-250px";
 
     machine.transitionTo(States.STANDING);
 
-    setTimeout(() => {
-        console.log("Going to waving");
+    // Demo after 3 sec
+    setTimeout(()=>{
+
         machine.transitionTo(States.WAVING);
-    }, 3000);
+
+    },3000);
 
 };

@@ -170,17 +170,22 @@ body {
     transform: scale(0.97);
 }
 
-#puddly-container {
-    position: absolute;
+#puddly-container{
 
-    right: 30px;
-    bottom: 0;
+    position:absolute;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    right:-250px;
 
-    user-select: none;
+    bottom:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    user-select:none;
+
 }
 
 @keyframes bounce{
