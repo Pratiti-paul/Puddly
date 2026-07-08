@@ -6,83 +6,79 @@ const SPRITES = {
     drinking: "../assets/drinking.png",
     sad: "../assets/sad.png",
 
-    walk1: "../assets/walk1.png",
-    walk2: "../assets/walk2.png",
-    walk3: "../assets/walk3.png",
-    walk4: "../assets/walk4.png"
+    walk: [
+        "../assets/walkout1.png",
+        "../assets/walkout2.png",
+        "../assets/walkout3.png"
+    ]
 };
 
 let walkInterval = null;
+let frame = 0;
 
-function setImage(src){
-    character.src = src;
+function showStanding() {
+    stopWalking();
+    character.style.transform = "scaleX(1)";
+    character.src = SPRITES.standing;
 }
 
-function showStanding(){
+function showWaving() {
     stopWalking();
-    setImage(SPRITES.standing);
+    character.style.transform = "scaleX(1)";
+    character.src = SPRITES.waving;
 }
 
-function showWaving(){
+function showDrinking() {
     stopWalking();
-    setImage(SPRITES.waving);
+    character.style.transform = "scaleX(1)";
+    character.src = SPRITES.drinking;
 }
 
-function showDrinking(){
+function showSad() {
     stopWalking();
-    setImage(SPRITES.drinking);
+    character.style.transform = "scaleX(1)";
+    character.src = SPRITES.sad;
 }
 
-function showSad(){
-    stopWalking();
-    setImage(SPRITES.sad);
-}
-
-function startWalking(){
+function startWalking(direction = "right") {
 
     stopWalking();
 
-    const frames = [
-        SPRITES.walk1,
-        SPRITES.walk2,
-        SPRITES.walk3,
-        SPRITES.walk4
-    ];
+    frame = 0;
 
-    let i = 0;
+    // Face the correct direction
+    if (direction === "left") {
+        character.style.transform = "scaleX(-1)";
+    } else {
+        character.style.transform = "scaleX(1)";
+    }
+
+    // Show first frame immediately
+    character.src = SPRITES.walk[0];
 
     walkInterval = setInterval(() => {
 
-        setImage(frames[i]);
+        frame = (frame + 1) % SPRITES.walk.length;
+        character.src = SPRITES.walk[frame];
 
-        i++;
-
-        if(i >= frames.length){
-            i = 0;
-        }
-
-    },120);
+    }, 100);
 
 }
 
-function stopWalking(){
+function stopWalking() {
 
-    if(walkInterval){
-
+    if (walkInterval) {
         clearInterval(walkInterval);
         walkInterval = null;
-
     }
 
 }
 
 module.exports = {
-
     showStanding,
     showWaving,
     showDrinking,
     showSad,
     startWalking,
     stopWalking
-
 };
