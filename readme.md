@@ -24,26 +24,26 @@ Designed to be lightweight, non-intrusive, and enjoyable to use.
 ## Features
 
 - Cute animated desktop companion
-- 🚶 Walk-in & walk-out reminder animations
-- 👋 Multiple character states
+- Walk-in & walk-out reminder animations
+- Multiple character states
   - Standing
   - Waving
   - Drinking
   - Sad
-- 💬 Interactive speech bubble
-- ✅ "I Drank" confirmation
-- 😴 Snooze reminders
-- 📌 Always-on-top desktop companion
-- 🖱️ Draggable companion with remembered position
-- 🍎 Native macOS system tray support
-- ⚙️ Configurable reminder intervals
-- 🌙 Do Not Disturb mode
-- 💾 Persistent user preferences
-- ❌ Native Quit option
+- Interactive speech bubble
+- "I Drank" confirmation
+- Snooze reminders
+- Always-on-top desktop companion
+- Draggable companion with remembered position
+- Native macOS system tray support
+- Configurable reminder intervals
+- Do Not Disturb mode
+- Persistent user preferences
+- Native Quit option
 
 ---
 
-## 🖥️ Tech Stack
+## Tech Stack
 
 - Electron
 - HTML5
@@ -52,7 +52,7 @@ Designed to be lightweight, non-intrusive, and enjoyable to use.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 Puddly/
@@ -85,12 +85,12 @@ Puddly/
 
 ---
 
-## 🚀 Installation
+## Installation
 
 Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/Puddly.git
+git clone https://github.com/Pratiti-paul/Puddly
 ```
 
 Go into the project
@@ -113,20 +113,20 @@ npm start
 
 ---
 
-## 💙 How It Works
+## How It Works
 
 1. Puddly quietly stays on your desktop.
 2. After the configured reminder interval, she walks onto the screen.
 3. A hydration reminder appears.
 4. You can either:
-   - 💧 I Drank
-   - 😴 Snooze
+   - I Drank
+   - Snooze
 5. Puddly responds with an animation and walks away.
 6. The reminder timer resets automatically.
 
 ---
 
-## 🌙 System Tray
+## System Tray
 
 The tray provides quick access to:
 
@@ -137,15 +137,9 @@ The tray provides quick access to:
 
 ---
 
-## 📸 Screenshots
+## Roadmap
 
-> Screenshots and GIFs coming soon.
-
----
-
-## 🛣️ Roadmap
-
-### ✅ Completed
+### Completed
 
 - Animated desktop companion
 - State machine
@@ -159,7 +153,7 @@ The tray provides quick access to:
 - Persistent settings
 - Draggable companion
 
-### 🚧 In Progress
+### In Progress
 
 - Idle animations
 - Settings window
@@ -167,7 +161,7 @@ The tray provides quick access to:
 - Better walking animations
 - Custom reminder messages
 
-### 🔮 Future Plans
+### Future Plans
 
 - Daily hydration statistics
 - Water streak tracking
@@ -180,7 +174,7 @@ The tray provides quick access to:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions, feature suggestions, and bug reports are always welcome.
 
@@ -194,8 +188,12 @@ This project is licensed under the MIT License.
 
 ---
 
-## 👩‍💻 Author
+## Disclaimer
 
-**Pratiti Paul**
+This project is intended for educational, development, and portfolio purposes only. Property listings and inquiries are simulated for demonstration and learning purposes.
 
-Built with 💙 and lots of water.
+---
+
+## Made with ❤️ by Pratiti Paul
+
+[GitHub](https://github.com/Pratiti-paul)
