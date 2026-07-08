@@ -1,4 +1,4 @@
-# Puddly
+# Puddly – A Desktop Hydration Companion
 
 <p align="center">
   <img src="assets/icon.png" alt="Puddly Logo" width="120">
