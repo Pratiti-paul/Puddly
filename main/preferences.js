@@ -4,7 +4,8 @@ const path = require("path");
 const DEFAULT_PREFERENCES = {
     dndMode: "off",
     dndUntil: null,
-    reminderIntervalMinutes: 90
+    reminderIntervalMinutes: 90,
+    windowPosition: null
 };
 
 function getPreferencesPath(app) {
@@ -25,6 +26,19 @@ function normalizePreferences(preferences) {
     if (!normalized.dndUntil || normalized.dndUntil <= Date.now()) {
         normalized.dndMode = "off";
         normalized.dndUntil = null;
+    }
+
+    if (
+        !normalized.windowPosition ||
+        !Number.isFinite(Number(normalized.windowPosition.x)) ||
+        !Number.isFinite(Number(normalized.windowPosition.y))
+    ) {
+        normalized.windowPosition = null;
+    } else {
+        normalized.windowPosition = {
+            x: Math.round(Number(normalized.windowPosition.x)),
+            y: Math.round(Number(normalized.windowPosition.y))
+        };
     }
 
     return normalized;

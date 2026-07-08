@@ -2,24 +2,29 @@ const { app, BrowserWindow, ipcMain, screen } = require("electron");
 const path = require("path");
 const { createPuddlyTray } = require("./tray");
 const { loadPreferences, savePreferences, normalizePreferences } = require("./preferences");
+const { registerWindowDrag } = require("./windowDrag");
+const { getInitialWindowBounds } = require("./windowBounds");
 
 let mainWindow;
 let trayController;
 let preferences;
 let dndExpirationTimer;
+const WINDOW_SIZE = {
+    width: 360,
+    height: 490
+};
 
 function createWindow() {
 
-    const display = screen.getPrimaryDisplay();
-    const { width, height } = display.workAreaSize;
+    const windowBounds = getInitialWindowBounds(
+        screen,
+        preferences,
+        WINDOW_SIZE
+    );
 
     mainWindow = new BrowserWindow({
 
-        width: 360,
-        height: 490,
-
-        x: width - 360,
-        y: height - 490,
+        ...windowBounds,
 
         type: process.platform === "darwin" ? "panel" : undefined,
 
@@ -173,6 +178,13 @@ app.whenReady().then(() => {
     preferences = normalizePreferences(loadPreferences(app));
     preferences = savePreferences(app, preferences);
     scheduleDndExpiration();
+    registerWindowDrag({
+        ipcMain,
+        screen,
+        getWindow: () => mainWindow,
+        getPreferences: () => preferences,
+        updatePreferences
+    });
     createWindow();
 });
 

@@ -3,8 +3,10 @@ const Character = require("./character");
 const PopupManager = require("./popup");
 const { States, StateMachine } = require("./states");
 const Timer = require("./timer");
+const { registerCompanionDrag } = require("./windowDrag");
 
 const puddly = document.getElementById("puddly-container");
+const companion = document.querySelector(".companion-container");
 const HIDDEN_RIGHT_OFFSET = "-320px";
 const VISIBLE_RIGHT_OFFSET = "30px";
 const DEFAULT_PREFERENCES = {
@@ -37,6 +39,8 @@ const machine = new StateMachine(
     States.STANDING,
     handleStateChange
 );
+
+registerCompanionDrag(companion);
 
 // -------------------------------------
 // Walking Animations
