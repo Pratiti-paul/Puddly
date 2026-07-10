@@ -3,13 +3,21 @@
   "version": "1.0.0",
   "description": "Puddly - A cute desktop hydration companion",
   "main": "main/main.js",
-  "scripts": {
-    "start": "electron ."
-  },
+  "author": "Pratiti Paul",
+  "license": "MIT",
+  "type": "commonjs",
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Pratiti-paul/Puddly.git"
   },
+
+  "homepage": "https://github.com/Pratiti-paul/Puddly#readme",
+
+  "bugs": {
+    "url": "https://github.com/Pratiti-paul/Puddly/issues"
+  },
+
   "keywords": [
     "electron",
     "desktop",
@@ -18,14 +26,57 @@
     "desktop-pet",
     "puddly"
   ],
-  "author": "Pratiti Paul",
-  "license": "MIT",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Pratiti-paul/Puddly/issues"
+
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "dist": "electron-builder",
+    "dist:mac": "electron-builder --mac",
+    "dist:win": "electron-builder --win",
+    "pack": "electron-builder --dir"
   },
-  "homepage": "https://github.com/Pratiti-paul/Puddly#readme",
+
+  "build": {
+    "appId": "com.pratitipaul.puddly",
+    "productName": "Puddly",
+
+    "directories": {
+      "output": "dist"
+    },
+
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!node_modules/.cache/**",
+      "!README.md"
+    ],
+
+    "mac": {
+      "category": "public.app-category.healthcare-fitness",
+      "target": [
+        "dmg"
+      ],
+      "icon": "assets/icon.icns"
+    },
+
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/icon.ico"
+    },
+
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+
   "devDependencies": {
-    "electron": "^43.0.0"
+    "electron": "^43.0.0",
+    "electron-builder": "^26.0.12",
+    "electron-icon-builder": "^2.0.1"
   }
 }

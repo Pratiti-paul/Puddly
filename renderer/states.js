@@ -1,4 +1,4 @@
-// renderer/states.js
+const logger = require("./logger");
 
 // =========================
 // Available Character States
@@ -27,8 +27,8 @@ class StateMachine {
             return;
         }
 
-        console.log(
-            `[STATE] ${this.currentState} → ${newState}`
+        logger.debug(
+            `[STATE] ${this.currentState} -> ${newState}`
         );
 
         this.currentState = newState;

@@ -4,6 +4,7 @@ const PopupManager = require("./popup");
 const { States, StateMachine } = require("./states");
 const { registerCompanionDrag } = require("./windowDrag");
 const { ReminderEngine } = require("./reminderEngine");
+const logger = require("./logger");
 const {
     getDrinkMessage,
     getReminderMessage,
@@ -87,9 +88,6 @@ function walkOut(callback) {
 // -------------------------------------
 
 function handleStateChange(state) {
-
-    console.log("[STATE]", state);
-
     switch (state) {
 
         case States.STANDING:
@@ -198,18 +196,6 @@ function onQuit() {
 
 }
 
-// -------------------------------------
-// Debug Helpers
-// -------------------------------------
-
-window.machine = machine;
-window.States = States;
-
-window.showStanding = () => machine.transitionTo(States.STANDING);
-window.showWaving = () => machine.transitionTo(States.WAVING);
-window.showDrinking = () => machine.transitionTo(States.DRINKING);
-window.showSad = () => machine.transitionTo(States.SAD);
-
 ipcRenderer.on("preferences:changed", (event, nextPreferences) => {
     reminderEngine.applyPreferences(nextPreferences);
 });
@@ -218,14 +204,19 @@ ipcRenderer.on("app-quitting", () => {
     reminderEngine.stop();
 });
 
+window.addEventListener("error", (event) => {
+    logger.error("Unhandled renderer error", event.error || event.message);
+});
+
+window.addEventListener("unhandledrejection", (event) => {
+    logger.error("Unhandled renderer promise rejection", event.reason);
+});
+
 // -------------------------------------
 // App Start
 // -------------------------------------
 
 window.onload = async () => {
-
-    console.log("Puddly Started");
-
     // Start hidden off-screen
     puddly.style.right = HIDDEN_RIGHT_OFFSET;
 
