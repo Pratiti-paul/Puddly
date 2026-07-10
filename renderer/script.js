@@ -2,24 +2,19 @@ const { ipcRenderer } = require("electron");
 const Character = require("./character");
 const PopupManager = require("./popup");
 const { States, StateMachine } = require("./states");
-const Timer = require("./timer");
 const { registerCompanionDrag } = require("./windowDrag");
+const { ReminderEngine } = require("./reminderEngine");
+const {
+    getDrinkMessage,
+    getReminderMessage,
+    getSnoozeMessage
+} = require("./messages");
 
 const puddly = document.getElementById("puddly-container");
 const companion = document.querySelector(".companion-container");
 const HIDDEN_RIGHT_OFFSET = "-320px";
 const VISIBLE_RIGHT_OFFSET = "30px";
-const DEFAULT_PREFERENCES = {
-    dndMode: "off",
-    dndUntil: null,
-    reminderIntervalMinutes: 90
-};
-const ONE_MINUTE_MS = 60 * 1000;
 const INITIAL_REMINDER_DELAY_MS = 3000;
-const reminderTimer = new Timer(0, handleReminderTimeout);
-
-let preferences = { ...DEFAULT_PREFERENCES };
-let preferencesLoaded = false;
 
 // -------------------------------------
 // Popup
@@ -41,6 +36,12 @@ const machine = new StateMachine(
 );
 
 registerCompanionDrag(companion);
+
+const reminderEngine = new ReminderEngine({
+    standingState: States.STANDING,
+    getCurrentState: () => machine.getCurrentState(),
+    onReminderDue: () => machine.transitionTo(States.WAVING)
+});
 
 // -------------------------------------
 // Walking Animations
@@ -95,20 +96,20 @@ function handleStateChange(state) {
 
             popup.hide();
             Character.showStanding();
-            scheduleNextReminder();
+            reminderEngine.scheduleAfterInteraction();
 
             break;
 
         case States.WAVING:
 
-            reminderTimer.stop();
+            reminderEngine.pauseForInteraction();
 
             walkIn(() => {
 
                 Character.showWaving();
 
                 popup.show(
-                    "💕 Hiii gurlll!!\nIt's time for some water 💧",
+                    getReminderMessage(),
                     true
                 );
 
@@ -118,11 +119,11 @@ function handleStateChange(state) {
 
         case States.DRINKING:
 
-            reminderTimer.stop();
+            reminderEngine.pauseForInteraction();
             Character.showDrinking();
 
             popup.show(
-                "Yayyy!! 💖\nGood job staying hydrated!",
+                getDrinkMessage(),
                 false
             );
 
@@ -146,11 +147,11 @@ function handleStateChange(state) {
 
         case States.SAD:
 
-            reminderTimer.stop();
+            reminderEngine.pauseForInteraction();
             Character.showSad();
 
             popup.show(
-                "Okkayy 🥺\nI'll remind you again soon.",
+                getSnoozeMessage(),
                 false
             );
 
@@ -209,62 +210,12 @@ window.showWaving = () => machine.transitionTo(States.WAVING);
 window.showDrinking = () => machine.transitionTo(States.DRINKING);
 window.showSad = () => machine.transitionTo(States.SAD);
 
-// -------------------------------------
-// Reminder Scheduling
-// -------------------------------------
-
-function reminderIntervalMs() {
-    return preferences.reminderIntervalMinutes * ONE_MINUTE_MS;
-}
-
-function isDndActive() {
-    return Boolean(preferences.dndUntil && preferences.dndUntil > Date.now());
-}
-
-function scheduleNextReminder(delayMs = reminderIntervalMs()) {
-    if (!preferencesLoaded) {
-        return;
-    }
-
-    if (isDndActive()) {
-        reminderTimer.reset(preferences.dndUntil - Date.now());
-        return;
-    }
-
-    reminderTimer.reset(delayMs);
-}
-
-function handleReminderTimeout() {
-    if (isDndActive()) {
-        scheduleNextReminder();
-        return;
-    }
-
-    if (machine.is(States.STANDING)) {
-        machine.transitionTo(States.WAVING);
-        return;
-    }
-
-    scheduleNextReminder(ONE_MINUTE_MS);
-}
-
-function applyPreferences(nextPreferences) {
-    preferences = {
-        ...DEFAULT_PREFERENCES,
-        ...nextPreferences
-    };
-
-    if (preferencesLoaded && machine.is(States.STANDING)) {
-        scheduleNextReminder();
-    }
-}
-
 ipcRenderer.on("preferences:changed", (event, nextPreferences) => {
-    applyPreferences(nextPreferences);
+    reminderEngine.applyPreferences(nextPreferences);
 });
 
 ipcRenderer.on("app-quitting", () => {
-    reminderTimer.stop();
+    reminderEngine.stop();
 });
 
 // -------------------------------------
@@ -281,8 +232,9 @@ window.onload = async () => {
     // Character is standing off-screen
     Character.showStanding();
 
-    applyPreferences(await ipcRenderer.invoke("preferences:get"));
-    preferencesLoaded = true;
-    scheduleNextReminder(INITIAL_REMINDER_DELAY_MS);
+    reminderEngine.start(
+        await ipcRenderer.invoke("preferences:get"),
+        INITIAL_REMINDER_DELAY_MS
+    );
 
 };

@@ -1,4 +1,9 @@
 const { ipcRenderer } = require("electron");
+const {
+    getDrinkMessage,
+    getReminderMessage,
+    getSnoozeMessage
+} = require("./messages");
 
 class PopupManager {
     constructor(onDrank, onSnooze) {
@@ -67,7 +72,7 @@ class PopupManager {
     showReminder() {
 
         this.show(
-            "💕 Hiii gurlll!\nIt's time for some water 💧",
+            getReminderMessage(),
             true
         );
 
@@ -76,7 +81,7 @@ class PopupManager {
     showSuccess() {
 
         this.show(
-            "🥤 Yayyy!!\nGood job staying hydrated! 💖",
+            getDrinkMessage(),
             false
         );
 
@@ -85,7 +90,7 @@ class PopupManager {
     showSnooze() {
 
         this.show(
-            "🥺 Okkayy!\nI'll remind you again in 15 minutes 💕",
+            getSnoozeMessage(),
             false
         );
 
