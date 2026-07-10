@@ -12,10 +12,6 @@
 </p>
 
 <p align="center">
-  <video src="assets/demo.mp4" width="600" controls></video>
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/badge/Electron-43.x-blue?logo=electron">
   <img src="https://img.shields.io/badge/JavaScript-ES6-yellow?logo=javascript">
   <img src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows-success">
@@ -230,6 +226,12 @@ Reminder timer restarts
 ---
 
 ## 🌸 Screenshots
+
+### Demo Video
+
+<p align="center">
+  <video src="assets/demo.mp4" width="600" controls></video>
+</p>
 
 > Screenshots coming soon.
 
