@@ -227,13 +227,14 @@ Reminder timer restarts
 
 ## 🌸 Screenshots
 
-### Demo Video
+
+
+### 🎥 Demo
 
 <p align="center">
-  <video src="assets/demo.mp4" width="600" controls></video>
+  <img src="assets/demo.gif" alt="Puddly Demo" width="850">
 </p>
 
-> Screenshots coming soon.
 
 ---
 
