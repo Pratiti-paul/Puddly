@@ -235,6 +235,14 @@ Reminder timer restarts
 
 
 ---
+## 📸 Screenshots
+
+<p align="center">
+  <img src="assets/ss1.png"  width="48%">
+  <img src="assets/ss2.png"  width="48%">
+</p>
+
+---
 
 ## 🚀 Roadmap
 
