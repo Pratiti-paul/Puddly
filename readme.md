@@ -176,7 +176,7 @@ npm start
 
 ---
 
-## 📦 Download
+## Download
 
 ### macOS
 
@@ -188,7 +188,7 @@ Download the latest **EXE Installer** from the GitHub Releases page.
 
 ---
 
-## 💙 How It Works
+## How It Works
 
 ```text
 Launch App
@@ -225,11 +225,9 @@ Reminder timer restarts
 
 ---
 
-## 🌸 Screenshots
+### Demo Video
 
 
-
-### 🎥 Demo
 
 <p align="center">
   <img src="assets/demo.gif" alt="Puddly Demo" width="850">
@@ -240,7 +238,7 @@ Reminder timer restarts
 
 ## 🚀 Roadmap
 
-### ✅ Version 1.0
+### Version 1.0
 
 - Animated desktop companion
 - Walking animations
@@ -258,7 +256,7 @@ Reminder timer restarts
 
 ---
 
-### 🔜 Planned Features
+### Planned Features
 
 - Idle animations
 - Sound effects
@@ -272,7 +270,7 @@ Reminder timer restarts
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions, feature suggestions and bug reports are always welcome.
 
@@ -285,7 +283,7 @@ If you'd like to improve Puddly:
 
 ---
 
-## 📝 Known Issues
+## Known Issues
 
 ### macOS
 
@@ -305,21 +303,21 @@ This is expected for unsigned applications distributed outside the Mac App Store
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
 
 ---
 
-## 👩‍💻 Author
+## Author
 
 **Pratiti Paul**
 
-Made with 💙, lots of coffee ☕ and even more water 💧.
+Made with 🩷, lots of coffee ☕ and even more water.
 
 ---
 
 <p align="center">
   If Puddly reminded you to drink water today,<br>
-  don't ignore her... she's trying her best. 🥺💙
+  don't ignore her... she's trying her best.
 </p>
