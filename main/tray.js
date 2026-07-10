@@ -64,10 +64,6 @@ function buildTrayMenu(options) {
 
     return Menu.buildFromTemplate([
         {
-            label: "💧 Puddly",
-            enabled: false
-        },
-        {
             type: "separator"
         },
         {
