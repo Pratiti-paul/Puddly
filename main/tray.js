@@ -67,18 +67,18 @@ function buildTrayMenu(options) {
             type: "separator"
         },
         {
-            label: "🌙 Do Not Disturb",
+            label: "Do Not Disturb",
             submenu: buildDndMenu(options, preferences)
         },
         {
-            label: "⚙️ Settings",
+            label: "Settings",
             submenu: buildSettingsMenu(options, preferences)
         },
         {
             type: "separator"
         },
         {
-            label: "❌ Quit",
+            label: "Quit",
             click: options.onQuit
         }
     ]);
@@ -115,9 +115,9 @@ function buildSettingsMenu(options, preferences) {
                     type: "info",
                     buttons: ["OK"],
                     defaultId: 0,
-                    title: "Puddly",
-                    message: "Puddly",
-                    detail: "Version 1.0\nYour adorable hydration companion 💙"
+                    title: "About Puddly",
+                    message: "Puddly 💧",
+                    detail: "Version 1.0\n\nHiiee,I'm Puddly!\nI'm here to remind you to drink water and take care of yourself every day🌸"
                 });
             }
         }
